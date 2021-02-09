@@ -1,28 +1,67 @@
 import java.util.Scanner; // Import Scanner class so user input may be used.
+import java.util.Random;
 
 class App{
-    public static void Day1(){
-        // Declare variables for name, age, and reddit username.
-            
-            // Ask user for their name.
-            System.out.print("What is your name? ");
-            Scanner scan = new Scanner(System.in);
-            String realName = scan.nextLine();
-            
-            // Ask user for their age.
-            System.out.print("How old are you? ");
-            int userAge = scan.nextInt();
-            
-            // Ask user for their reddit username.
-            Scanner scan1 = new Scanner(System.in);
-            System.out.print("What is your reddit username? ");
-            String userName = scan1.nextLine();
-            
-            // Tell user their name, age, and username. Tell them they are fantastic.
-            System.out.println("Your name is " + realName + ", you are " + userAge + " years old, your reddit username is " + userName + ", and you are a pretty fantastic person!");
+
+    // Create a program that will ask the user's name, age and reddit username. Have it tell the information back.
+    public static void Challenge1(){
+        // Ask user for their name.
+        System.out.print("What is your name? ");
+        Scanner scan = new Scanner(System.in);
+        String realName = scan.nextLine();
+        
+        // Ask user for their age.
+        System.out.print("How old are you? ");
+        int userAge = scan.nextInt();
+        
+        // Ask user for their reddit username.
+        Scanner scan1 = new Scanner(System.in);
+        System.out.print("What is your reddit username? ");
+        String userName = scan1.nextLine();
+        
+        // Tell user their name, age, and username. Tell them they are fantastic.
+        System.out.println("Your name is " + realName + ", you are " + userAge + " years old, your reddit username is " + userName + ", and you are a pretty fantastic person!");
+        scan.close();
+        scan1.close();
+    }
+
+    // Create a program that will try to guess a number the user thinks of between 0-100. User does not enter the number into the program, but will only respond with "Higher" or "Lower" until program gets it right.
+    public static void Challenge2(){
+        int totalGuess = 0; // Tracks the number of guesses the program will make
+        int lowerBound = 0; // Tracks the lower bound in range of guesses
+        int upperBound = 100; // Tracks upper bound in range of guesses
+        int currentGuess;
+        System.out.println("Think of a number from 0 - 100. After each guess, press '1' for Lower and '2' for Higher. Press '3' once I'm right!");
+        for (int i = 0; i < 100; i++){
+            totalGuess++;
+            if(upperBound - lowerBound == '0'){
+                System.out.println("After "+totalGuess+" guesses, The only option left is: "+upperBound);
+                return;
+            }
+            else{
+                Random rand = new Random();
+                currentGuess = rand.nextInt((upperBound - lowerBound) + 1) + lowerBound;
+                System.out.println("My guess is: "+currentGuess);
+                Scanner scan = new Scanner(System.in);
+                int userChoice = scan.nextInt();
+                if(userChoice == 1){
+                    upperBound = currentGuess;
+                }
+                else if(userChoice == 2){
+                    lowerBound = currentGuess;
+                }
+                else if(userChoice == 3){
+                    System.out.println("It only took me "+totalGuess+" guesses!");
+                    break;
+                }
+                else{
+                    System.out.println("Invalid");
+                }
+            }
+        }     
     }
     public static void main(String[] args){
-        // Challenge 1) Ask a user for their name, age, and reddit username. Then print it back out to them!
-        Day1();
+        // Challenge1();
+        // Challenge2();
     }
 }
