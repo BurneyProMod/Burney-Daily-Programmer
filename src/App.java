@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner; // Import Scanner class so user input may be used.
 import java.util.Random;
-
+import java.util.ArrayList;
 
 class App{
 
@@ -59,28 +59,78 @@ class App{
     }
 
     public static void main(String[] args) throws Exception{
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Which challenge would you like to run?");
+
+        // Read challenges from file and put into ArrayList
         try {
+            ArrayList<String> list = new ArrayList<String>();
             FileReader reader = new FileReader("Challenges.txt");
             BufferedReader br = new BufferedReader(reader);
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+                list.add(line);
+                //System.out.println(line);
             }
             reader.close();
- 
+
+            // Sort Challenges
+            System.out.println("How would you like to sort the challenges?");
+            System.out.println("1. Chronological");
+            System.out.println("2. By Difficulty");
+            Scanner userInput = new Scanner(System.in);
+            int userSort = userInput.nextInt();
+            switch(userSort){
+                case 1: 
+                    // Honestly it's already in Chronological order so this is a placeholder. 
+                    break;
+                case 2: 
+                    // Each line is started with (Easy) (Medium) or (Hard)
+                    // Make 3 Arraylists for Easy, Medium, and Hard. Iterate through master list and put each category into corresponding ArrayList. Clear master ArrayList, then add each small ArrayList to master ArrayList.
+                    // Also word previous comment better.
+                    ArrayList<String> hardList = new ArrayList<String>();
+                    ArrayList<String> mediumList = new ArrayList<String>();
+                    ArrayList<String> easyList = new ArrayList<String>();
+                    for(int i=0; i < list.size(); i++){ // Iterate through entire list
+                        String substring = list.get(i).toString(); // Convert current index to a string so it may be searched
+
+                        // Check the 2nd character for H, I, or E. 
+                        substring = substring.substring(1,2); 
+                        switch(substring){
+                            case "H":
+                                hardList.add(list.get(i)); // If 2nd character is H, add to ArrayList "HardList"
+                                break;
+                            case "I":
+                                mediumList.add(list.get(i)); // If 2nd character is I, add to ArrayList "mediumList"
+                                break;
+                            case "E":
+                                easyList.add(list.get(i)); // If 2nd character is E, add to ArrayList "easyList"
+                                break;
+                            default:
+                                System.out.println("Error in sorting arraylists");
+                                System.out.println("Current iteration: "+i+". Current element: "+list.get(i));
+                                return;
+                        }
+                    }
+                    list.clear(); // Delete all elements in master list
+                    for(int i = 0; i < hardList.size(); i++){ // Iterate through Hard List and add to master list
+                        list.add(hardList.get(i).toString());
+                    }
+                    for(int i = 0; i < mediumList.size(); i++){ // Iterate through Medium List and add to master list
+                        list.add(mediumList.get(i).toString());
+                    }
+                    for(int i = 0; i < easyList.size(); i++){ // Iterate through Easy List and add to master list
+                        list.add(easyList.get(i).toString());
+                    }
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+            // Print ArrayList
+            for(int i=0; i < list.size(); i++){ // Access each item in ArrayList
+                String str = list.get(i); // Assign variable str to index 'i' of ArrayList.
+                System.out.println(str);
+            }
         } catch (IOException e) {
             e.printStackTrace(); 
-        }
-        int userChoice = scan.nextInt();
-        switch(userChoice){
-            case 1:
-                Challenge1();
-            case 2:
-                Challenge2();
-            default:
-                System.out.println("Option not available yet!");
         }
     }
 }
