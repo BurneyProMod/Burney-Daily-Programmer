@@ -1,25 +1,22 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner; // Import Scanner class so user input may be used.
 import java.util.Random;
+
 
 class App{
 
     // Create a program that will ask the user's name, age and reddit username. Have it tell the information back.
     public static void Challenge1(){
-        // Ask user for their name.
         System.out.print("What is your name? ");
         Scanner scan = new Scanner(System.in);
         String realName = scan.nextLine();
-        
-        // Ask user for their age.
         System.out.print("How old are you? ");
         int userAge = scan.nextInt();
-        
-        // Ask user for their reddit username.
         Scanner scan1 = new Scanner(System.in);
         System.out.print("What is your reddit username? ");
         String userName = scan1.nextLine();
-        
-        // Tell user their name, age, and username. Tell them they are fantastic.
         System.out.println("Your name is " + realName + ", you are " + userAge + " years old, your reddit username is " + userName + ", and you are a pretty fantastic person!");
         scan.close();
         scan1.close();
@@ -34,9 +31,9 @@ class App{
         System.out.println("Think of a number from 0 - 100. After each guess, press '1' for Lower and '2' for Higher. Press '3' once I'm right!");
         for (int i = 0; i < 100; i++){
             totalGuess++;
-            if(upperBound - lowerBound == '0'){
+            if(upperBound - lowerBound == 0){
                 System.out.println("After "+totalGuess+" guesses, The only option left is: "+upperBound);
-                return;
+                return; // Return is used here instead of break since there are no more steps for this method to do.
             }
             else{
                 Random rand = new Random();
@@ -44,24 +41,46 @@ class App{
                 System.out.println("My guess is: "+currentGuess);
                 Scanner scan = new Scanner(System.in);
                 int userChoice = scan.nextInt();
-                if(userChoice == 1){
-                    upperBound = currentGuess;
-                }
-                else if(userChoice == 2){
-                    lowerBound = currentGuess;
-                }
-                else if(userChoice == 3){
-                    System.out.println("It only took me "+totalGuess+" guesses!");
-                    break;
-                }
-                else{
+                switch(userChoice){
+                    case 1:
+                        upperBound = currentGuess;
+                        break;
+                    case 2:
+                        lowerBound = currentGuess;
+                        break;
+                    case 3:
+                        System.out.println("It only took me "+totalGuess+" guesses!");
+                        return; // Return is used here instead of break since there are no more steps for this method to do.
+                    default:
                     System.out.println("Invalid");
                 }
             }
-        }     
+        }    
     }
-    public static void main(String[] args){
-        // Challenge1();
-        // Challenge2();
+
+    public static void main(String[] args) throws Exception{
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Which challenge would you like to run?");
+        try {
+            FileReader reader = new FileReader("Challenges.txt");
+            BufferedReader br = new BufferedReader(reader);
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+            reader.close();
+ 
+        } catch (IOException e) {
+            e.printStackTrace(); 
+        }
+        int userChoice = scan.nextInt();
+        switch(userChoice){
+            case 1:
+                Challenge1();
+            case 2:
+                Challenge2();
+            default:
+                System.out.println("Option not available yet!");
+        }
     }
 }
